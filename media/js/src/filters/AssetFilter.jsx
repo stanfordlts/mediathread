@@ -35,7 +35,8 @@ const reactSelectStyles = {
     }),
     placeholder: (provided, state) => ({
         ...provided,
-        top: '45%'
+        top: '45%',
+        color: "#6B7780"
     }),
     menuPortal: (provided, state) => ({
         ...provided,
@@ -52,6 +53,10 @@ const reactSelectStyles = {
     option: (provided, state) => ({
         ...provided,
         paddingLeft: '20px'
+    }),
+    noOptionsMessage: (provided, state) => ({
+        ...provided,
+        color: "#333"
     })
 };
 

@@ -4390,3 +4390,6 @@ ul.selection-spinner {
     text-align: center;
 }
 
+.form-control::placeholder {
+  color: #6B7780;
+}
