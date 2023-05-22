@@ -247,6 +247,7 @@ export default class CollectionTab extends React.Component {
                     assets.push(
                       <div role="rowgroup">
                           <div key={idx} role="row" className="card-group">
+                            <div role="rowheader"></div>
                             {assetGroup}
                           </div>
                         </div>
@@ -265,6 +266,7 @@ export default class CollectionTab extends React.Component {
                 assets.push(
                     <div role="rowgroup">
                       <div key={assetGroup[0].key} role="row" className="card-group">
+                        <div role="rowheader"></div>
                         {assetGroup}
                       </div>
                     </div>
