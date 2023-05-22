@@ -341,7 +341,6 @@ export default class AssetFilter extends React.Component {
                                 ]} />
                         </div>
                         <div className="form-group col-md-1">
-                            <label htmlFor="clear-button" className="sr-only">Clear</label>
                             <div className="input-group mb-3" style={{marginTop: '32px'}}>
                                 <a
                                     href="#"
