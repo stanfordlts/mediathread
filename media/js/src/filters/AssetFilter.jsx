@@ -36,7 +36,7 @@ const reactSelectStyles = {
     placeholder: (provided, state) => ({
         ...provided,
         top: '45%',
-        color: "#6B7780"
+        color: "#495057"
     }),
     menuPortal: (provided, state) => ({
         ...provided,
