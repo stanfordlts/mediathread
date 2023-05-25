@@ -157,17 +157,17 @@ export default class GridAsset extends React.Component {
             );
         }
 
-        let label = `asset: ${this.props.asset.title}`;
+        let label = `${this.props.asset.title}`;
 
         if (this.state.selectedAnnotation) {
-            label = `annotation: ${this.state.selectedAnnotation.title}`;
+            label = `${this.state.selectedAnnotation.title}`;
         }
 
         const assetUrl = getAssetUrl(this.props.asset.id);
 
         return (
             <div role="cell" className="col-sm-4 border-right-8 border-white mb-4">
-                <h5 className="text-nowrap text-truncate">
+                <h6 className="text-nowrap">
                     <a
                         onClick={(e) => this.props.enterAssetDetailView(e, this.props.asset)}
                         href={assetUrl}
@@ -176,7 +176,7 @@ export default class GridAsset extends React.Component {
                             __html: this.props.asset.title
                         }}>
                     </a>
-                </h5>
+                </h6>
                 <div key={this.props.asset.id}>
                     <div className="card-thumbnail">
                         <div className="media-type">
@@ -202,7 +202,7 @@ export default class GridAsset extends React.Component {
                                     <img
                                         className="mx-auto d-block img-fluid"
                                         style={{'maxWidth': '100%'}}
-                                        alt={'Play video, ' + label}
+                                        alt={'Play video: ' + label}
                                         src={this.state.thumbnailUrl}
                                         id={`video-${this.props.asset.id}`}
                                         onError={() => handleBrokenImage(type)} />
@@ -211,7 +211,7 @@ export default class GridAsset extends React.Component {
                                     <img
                                         className="mx-auto d-block img-fluid"
                                         style={{'maxWidth': '100%'}}
-                                        alt={'Play audio, ' + label}
+                                        alt={'Play audio: ' + label}
                                         src={this.state.thumbnailUrl}
                                         id={`audio-${this.props.asset.id}`}
                                         onError={() => handleBrokenImage(type)} />
