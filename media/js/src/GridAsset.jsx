@@ -166,7 +166,7 @@ export default class GridAsset extends React.Component {
         const assetUrl = getAssetUrl(this.props.asset.id);
 
         return (
-            <div role="cell" className="col-sm-4 border-right-8 border-white mb-4">
+            <div className="col-sm-4 border-right-8 border-white mb-4">
                 <h6 className="text-nowrap">
                     <a
                         onClick={(e) => this.props.enterAssetDetailView(e, this.props.asset)}
