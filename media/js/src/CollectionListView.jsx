@@ -38,6 +38,11 @@ export default class CollectionListView extends React.Component {
             me.setState({loading: false});
         });
     }
+
+    componentDidMount() {
+        window.jQuery('div[id^="cell-1-"]').attr('role', 'rowheader');
+    }
+
     render() {
         if (this.props.assets.length === 0) {
             return <NoAssetsFound />;
