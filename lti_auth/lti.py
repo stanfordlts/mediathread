@@ -6,6 +6,8 @@ from pylti.common import (
 
 from lti_auth.models import LTICourseContext
 
+import logging
+logger = logging.getLogger(__name__)
 
 class LTI(object):
     """
@@ -117,6 +119,7 @@ class LTI(object):
         if self.request_type == 'session':
             self._verify_session(request)
         elif self.request_type == 'initial':
+            logger.error("lti.py:verify() - initial")
             self._verify_request(request)
         elif self.request_type == 'any':
             self._verify_any(request)
@@ -152,6 +155,7 @@ class LTI(object):
 
         :raises: LTIException is request validation failed
         """
+        logger.error("lti.py: enter _verify_request")
         if request.method == 'POST':
             params = dict(six.iteritems(request.POST))
         else:
@@ -162,13 +166,15 @@ class LTI(object):
                                   request.build_absolute_uri(),
                                   request.method, request.META,
                                   params)
-
+                                  
+            logger.error("before _validate_role()")
             self._validate_role()
 
             self.lti_params = params
             request.session[LTI_SESSION_KEY] = True
             return True
         except LTIException:
+            logger.error("lti.py: LTIException raised inside _verify_request()")
             self.lti_params = {}
             request.session[LTI_SESSION_KEY] = False
             raise
@@ -188,6 +194,7 @@ class LTI(object):
 
         :exception: LTIException if user is not in roles
         """
+        logger.error("self.role_type=" + self.role_type)
         if self.role_type != u'any':
             if self.role_type in LTI_ROLES:
                 role_list = LTI_ROLES[self.role_type]
@@ -198,5 +205,5 @@ class LTI(object):
                     raise LTIRoleException('Not authorized.')
             else:
                 raise LTIException("Unknown role {}.".format(self.role_type))
-
+        logger.error("Going to return True")
         return True

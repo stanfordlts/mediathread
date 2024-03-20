@@ -13,6 +13,8 @@ from django.views.generic.base import View, TemplateView
 from lti_auth.lti import LTI
 from lti_auth.models import LTICourseContext
 
+import logging
+logger = logging.getLogger(__name__)
 
 class LTIAuthMixin(object):
     role_type = 'any'
@@ -40,12 +42,16 @@ class LTIAuthMixin(object):
 
         # validate the user via oauth
         user = authenticate(request=request, lti=lti)
+        
         if user is None:
+            logger.error("user is None")
             lti.clear_session(request)
             return render(request, 'lti_auth/fail_auth.html', {})
 
         # login
+        logger.error("before login" + self.role_type)
         login(request, user)
+        logger.error("after login" + self.role_type)
 
         # check if course is configured
         try:
