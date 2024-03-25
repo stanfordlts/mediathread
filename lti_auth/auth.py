@@ -5,9 +5,6 @@ from django.utils.encoding import smart_bytes
 from nameparser import HumanName
 from pylti.common import LTIException
 
-import logging
-logger = logging.getLogger(__name__)
-
 class LTIBackend(object):
 
     def create_user(self, lti, username):
@@ -55,7 +52,6 @@ class LTIBackend(object):
     def find_or_create_user(self, lti):
         user = self.find_user(lti)
         if user is None:
-            logger.error("find_or_create_user()")
             username = self.get_username(lti)
             user = self.create_user(lti, username)
 
@@ -63,7 +59,6 @@ class LTIBackend(object):
 
     def authenticate(self, request=None, lti=None):
         try:
-            logger.error("auth.py:authenticate()")
             lti.verify(request)
             return self.find_or_create_user(lti)
         except LTIException:

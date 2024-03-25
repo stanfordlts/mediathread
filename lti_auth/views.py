@@ -13,9 +13,6 @@ from django.views.generic.base import View, TemplateView
 from lti_auth.lti import LTI
 from lti_auth.models import LTICourseContext
 
-import logging
-logger = logging.getLogger(__name__)
-
 class LTIAuthMixin(object):
     role_type = 'any'
     request_type = 'any'
@@ -36,6 +33,8 @@ class LTIAuthMixin(object):
             if 'teachingassistant' in role and lti.canvas_domain() in domains:
                 user.groups.add(ctx.faculty_group)
                 break
+            if 'ims/lis/none' in role:
+                return render(request, 'lti_auth/fail_auth.html', {})
 
     def dispatch(self, request, *args, **kwargs):
         lti = LTI(self.request_type, self.role_type)
@@ -44,14 +43,11 @@ class LTIAuthMixin(object):
         user = authenticate(request=request, lti=lti)
         
         if user is None:
-            logger.error("user is None")
             lti.clear_session(request)
             return render(request, 'lti_auth/fail_auth.html', {})
 
         # login
-        logger.error("before login" + self.role_type)
         login(request, user)
-        logger.error("after login" + self.role_type)
 
         # check if course is configured
         try:
