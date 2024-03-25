@@ -33,8 +33,6 @@ class LTIAuthMixin(object):
             if 'teachingassistant' in role and lti.canvas_domain() in domains:
                 user.groups.add(ctx.faculty_group)
                 break
-            if 'ims/lis/none' in role:
-                return render(request, 'lti_auth/fail_auth.html', {})
 
     def dispatch(self, request, *args, **kwargs):
         lti = LTI(self.request_type, self.role_type)
@@ -66,6 +64,11 @@ class LTIAuthMixin(object):
                     'sis_course_id': lti.sis_course_id(),
                     'domain': lti.canvas_domain()
                 })
+        
+        for role in lti.user_roles():
+            role = role.lower()
+            if 'ims/lis/none' in role:
+                return render(request, 'lti_auth/fail_auth.html', {})        
 
         # add user to the course
         self.join_groups(lti, ctx, user)
