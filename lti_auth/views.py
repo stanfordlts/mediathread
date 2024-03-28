@@ -47,6 +47,12 @@ class LTIAuthMixin(object):
         # login
         login(request, user)
 
+
+        for role in lti.user_roles():
+            role = role.lower()
+            if 'ims/lis/none' in role or 'instrole:ims/lis/observer' in role or 'role:ims/lis/mentor' in role or 'contentdeveloper' in role:
+                return render(request, 'lti_auth/fail_auth.html', {})
+
         # check if course is configured
         try:
             ctx = LTICourseContext.objects.get(
@@ -65,11 +71,6 @@ class LTIAuthMixin(object):
                     'domain': lti.canvas_domain()
                 })
         
-        for role in lti.user_roles():
-            role = role.lower()
-            if 'ims/lis/none' in role:
-                return render(request, 'lti_auth/fail_auth.html', {})        
-
         # add user to the course
         self.join_groups(lti, ctx, user)
         self.lti = lti
