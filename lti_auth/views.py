@@ -50,7 +50,11 @@ class LTIAuthMixin(object):
 
         for role in lti.user_roles():
             role = role.lower()
-            if 'ims/lis/none' in role or 'instrole:ims/lis/observer' in role or 'role:ims/lis/mentor' in role or 'contentdeveloper' in role:
+            if ('ims/lis/none' in role or
+                'ims/lis/observer' in role or
+                'ims/lis/mentor' in role or
+                'ims/lis/Learner/NonCreditLearner' in role or
+                'contentdeveloper' in role):
                 return render(request, 'lti_auth/fail_auth.html', {})
 
         # check if course is configured
