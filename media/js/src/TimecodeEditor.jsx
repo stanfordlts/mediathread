@@ -24,7 +24,8 @@ export default class TimecodeEditor extends React.Component {
                     required
                     id="juxTimecode"
                     ref={this.spinnerRef}
-                    min={this.props.min}
+                    min={formatTimecode(this.props.min)}
+                    max="99:00:00"
                     defaultValue={timecode} />
             </div>
         );
