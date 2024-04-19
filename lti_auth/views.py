@@ -47,6 +47,10 @@ class LTIAuthMixin(object):
         # login
         login(request, user)
 
+        for role in lti.user_roles():
+            role = role.lower()
+            if ('urn:lti:sysrole:ims/lis/none' in role):
+                return render(request, 'lti_auth/fail_auth.html', {})
 
         for custom_roles in lti.user_custom_roles():
             custom_roles = custom_roles.lower()
