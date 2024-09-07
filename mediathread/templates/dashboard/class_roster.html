@@ -56,6 +56,9 @@
                 <th>
                     Role
                 </th>
+                {% if can_edit %}
+                <th class="nosort">Actions</th>
+                {% endif %}
             </tr>
             </thead>
             <tbody>
@@ -76,6 +79,18 @@
                             Student &nbsp;
                         {% endif %}
                     </td>
+                    {% if can_edit %}
+                    <td>
+                        <form class="inline" action="{% url 'course-roster-remove' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="user_id" value="{{user.id}}" />
+                            <button data-user-fullname="{{user.get_full_name}}" data-user-id="{{user.id}}"
+                             class="btn btn-default btn-sm btn-remove" style="background-color:red" type="submit">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Remove
+                            </button>
+                        </form>
+                    </td>
+                    {% endif %}
                 </tr>
             {% endfor %}
             </tbody>
