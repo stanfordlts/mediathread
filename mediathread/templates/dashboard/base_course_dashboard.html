@@ -65,40 +65,8 @@
                             {% if '/ingest/' in request.path %}class="active"{% endif %}
                             href="{% url 'course-manage-sources' request.course.pk %}">Sources</a>
                     </li>
-                    {% if user.is_staff and settings.PANOPTO_SERVER %}
-                    <li>
-                        <a
-                            {% if '/panopto/' in request.path %}class="active"{% endif %}
-                            href="{% url 'course-panopto-source' request.course.pk %}">Panopto Sources</a>
-                    </li>
-                    {% endif %}
-                    <li>
-                        <a
-                            {% if '/migrate/' in request.path %}class="active"{% endif %}
-                            href="{% url 'dashboard-migrate' request.course.pk %}">Migrations</a>
-                    </li>
-                    {% if user.is_superuser %}
-                        <li>
-                            <a {% if '/convert/' in request.path %}class="active"{% endif %}
-                                href="{% url 'course-convert-materials' request.course.pk %}">Conversions</a>
-                        </li>
-                        <li>
-                            <a {% if '/delete/' in request.path %}class="active"{% endif %}
-                                href="{% url 'course-delete-materials' request.course.pk %}">Deletions</a>
-                        </li>
-                    {% endif %}
                     <li>
                         <strong>Participation</strong>
-                    </li>
-                    <li>
-                        <a
-                            {% if '/reports/class_activity/' in request.path %}class="active"{% endif %}
-                            href="{% url 'class-activity' request.course.pk %}">Activity</a>
-                    </li>
-                    <li>
-                        <a
-                            {% if '/reports/class_summary/' in request.path %}class="active"{% endif %}
-                            href="{% url 'class-summary' request.course.pk %}">Member Contributions</a>
                     </li>
                     <li>
                         <a
