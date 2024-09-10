@@ -53,7 +53,6 @@ class LTIAuthMixin(object):
                 'ims/lis/observer' in role or
                 'ims/lis/mentor' in role or
                 'ims/lis/Learner/NonCreditLearner' in role or
-                'ims/lis/teachingassistant' in role or
                 'contentdeveloper' in role):
                 return render(request, 'lti_auth/fail_auth.html', {})
 
