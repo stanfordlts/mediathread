@@ -85,7 +85,7 @@
                             {% csrf_token %}
                             <input type="hidden" name="user_id" value="{{user.id}}" />
                             <button data-user-fullname="{{user.get_full_name}}" data-user-id="{{user.id}}"
-                             class="btn btn-default btn-sm btn-remove" style="background-color:red" type="submit">
+                             class="btn btn-default btn-sm btn-remove" style="background-color:#b1040e;color:#ffffff;" type="submit">
                                 <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Remove
                             </button>
                         </form>
