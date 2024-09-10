@@ -56,7 +56,8 @@ class LTIAuthMixin(object):
             if (custom_roles is None or custom_roles == '' or
                 'course content share' in custom_roles or
                 'observerenrollment' in custom_roles or
-                'librarian' in custom_roles):
+                'librarian' in custom_roles or
+                'grader' in custom_roles):
                 return render(request, 'lti_auth/fail_auth.html', {})
 
         # check if course is configured
