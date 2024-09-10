@@ -18,6 +18,9 @@
         <lticm:property name="default">disabled</lticm:property>
         <lticm:property name="enabled">true</lticm:property>
         <lticm:property name="visibility">members</lticm:property>
+        <lticm:options name="custom_fields">
+          <lticm:property name="roles">$Canvas.membership.roles</lticm:property>
+        </lticm:options>
       </lticm:options>
       {% if embed_tool_id %}
           <lticm:options name="editor_button">

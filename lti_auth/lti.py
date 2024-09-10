@@ -65,6 +65,16 @@ class LTI(object):
 
         return []
 
+    def user_custom_roles(self):  # pylint: disable=no-self-use
+        """
+        LTI custom roles of the authenticated user
+        :return: custom_roles
+        """
+        if 'custom_roles' in self.lti_params:
+            return self.lti_params.get('custom_roles', None).lower().split(',')
+
+        return []
+        
     def is_administrator(self):
         return 'administrator' in self.lti_params.get('roles', '').lower()
 
