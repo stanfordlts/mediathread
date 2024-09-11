@@ -52,11 +52,12 @@ class LTIAuthMixin(object):
 
         for custom_roles in lti.user_custom_roles():
             custom_roles = custom_roles.lower()
-            logger.error("custom_roles = " + custom_roles)
+            logger.debug("user  = " + user.username + ", custom_roles = " + custom_roles)
             if (custom_roles is None or custom_roles == '' or
                 'course content share' in custom_roles or
                 'observerenrollment' in custom_roles or
                 'librarian' in custom_roles or
+                'designerenrollment' in custom_roles or
                 'grader' in custom_roles):
                 return render(request, 'lti_auth/fail_auth.html', {})
 
