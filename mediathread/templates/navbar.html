@@ -14,31 +14,6 @@
         aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
 <div class="collapse navbar-collapse" id="navbarNavDropdown">
   <ul class="navbar-nav w-100">
-
-    <!-- Only show if not logged in -->
-    {% if not request.user.is_authenticated %}
-        <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#"
-               id="public-navbarDropdown" role="button"
-               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Learn More
-        </a>
-        <div class="dropdown-menu" aria-labelledby="public-navbarDropdown">
-            <a class="dropdown-item" href="/about/">About Mediathread</a>
-            <a class="dropdown-item" href="/testimonials/" style="display:none">Testimonials</a>
-        </div>
-        </li>
-    {% endif %}
-
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="useMediathread-navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Use Mediathread </a>
-        <div class="dropdown-menu" aria-labelledby="useMediathread-navbarDropdown">
-            {% if request.user.is_authenticated %}
-                <a class="dropdown-item" href="/about/">About</a>
-            {% endif %}
-            <a class="dropdown-item" href="/features/">Features</a>
-        </div>
-    </li>
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="getSupport-navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Get Support </a>
         <div class="dropdown-menu" aria-labelledby="getSupport-navbarDropdown">
