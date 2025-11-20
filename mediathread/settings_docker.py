@@ -3,6 +3,7 @@ from mediathread.settings_shared import *
 
 app ="mediathread"
 
+CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
     "https://canvas.stanford.edu",
     "https://stanford.test.instructure.com",
