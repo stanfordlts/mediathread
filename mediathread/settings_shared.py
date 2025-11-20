@@ -41,8 +41,8 @@ TEMPLATES[0]['OPTIONS']['context_processors'].append(  # noqa
 
 
 MIDDLEWARE += [  # noqa
-    'django.middleware.csrf.CsrfViewMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'mediathread.main.middleware.MethCourseManagerMiddleware',
     'django_user_agents.middleware.UserAgentMiddleware',
 ]
@@ -168,7 +168,10 @@ SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 
 ACCOUNT_ACTIVATION_DAYS = 7
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    "https://canvas.stanford.edu",
+    "https://stanford.test.instructure.com"
+]
 CORS_ALLOW_METHODS = ('GET',)
 CORS_ALLOW_CREDENTIALS = True
 
