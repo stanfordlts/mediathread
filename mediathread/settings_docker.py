@@ -8,8 +8,6 @@ CORS_ALLOWED_ORIGINS = [
     "https://canvas.stanford.edu",
     "https://stanford.test.instructure.com",
     "chrome-extension://gambcgmmppeklfmbahomokogelnaffbi",
-    "https://mediathread.stanford.edu",
-    "https://mediathread-qa.stanford.edu",
 ]
 
 # required settings:
