@@ -3,11 +3,6 @@ from mediathread.settings_shared import *
 
 app ="mediathread"
 
-CORS_ALLOWED_ORIGINS = [
-    "https://canvas.stanford.edu",
-    "https://stanford.test.instructure.com"
-]
-
 # required settings:
 SECRET_KEY = os.environ['SECRET_KEY']
 
