@@ -88,14 +88,14 @@ if (!Sherd.Video.YouTube) {
                 mediaUrl: url, // Used by _seek seeking behavior
                 text: '<div id="' + wrapperID + '" class="sherd-youtube-wrapper ' +
                     'embed-responsive embed-responsive-16by9">' +
-                    '<iframe title="YouTube video test' + obj.title + '"' +
-                    'referrerpolicy="strict-origin-when-cross-origin" ' +
+                    '<iframe title="YouTube video ' + obj.title + '"' +
                     'type="text/html" ' +
                     'src="' + url + '?' + urlParams + '" ' +
                     'width="' + obj.options.width + '" ' +
                     'height="' + obj.options.height + '" ' +
                     'allowfullscreen="true" ' +
                     'allow="autoplay" ' +
+                    'referrerpolicy="strict-origin-when-cross-origin" ' +
                     'frameborder="0" ' +
                     'id="' + self.playerID + '" />' +
                     '</div>'
