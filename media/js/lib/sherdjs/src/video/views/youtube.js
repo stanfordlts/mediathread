@@ -95,6 +95,7 @@ if (!Sherd.Video.YouTube) {
                     'height="' + obj.options.height + '" ' +
                     'allowfullscreen="true" ' +
                     'allow="autoplay" ' +
+                    'referrerpolicy="strict-origin-when-cross-origin" ' +
                     'frameborder="0" ' +
                     'id="' + self.playerID + '" />' +
                     '</div>'
