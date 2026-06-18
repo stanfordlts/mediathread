@@ -32,6 +32,8 @@ from django.views.generic.base import View, TemplateView
 
 import hmac
 import json
+import math
+import os
 from mediathread.api import UserResource, TagResource
 from mediathread.assetmgr.api import AssetResource
 from mediathread.assetmgr.models import (
@@ -640,11 +642,74 @@ class RedirectToUploaderView(LoggedInCourseMixin, View):
 
         return HttpResponseRedirect(url)
 
+class CustomPanoptoUpload(PanoptoUpload):
+    """
+    Custom PanoptoUpload class that overrides broken methods from the
+    third-party `panopto` package.
+    """
+
+    def upload_manifest(self):
+        """
+        FIX: Upload the manifest with a single PUT request (put_object)
+        to avoid multipart issues with Panopto's S3-compatible endpoint.
+        """
+        manifest = self._panopto_manifest(
+            self.dest_filename, self.title, self.description
+        )
+        key_name = self.target.file_key(f"{self.uuid}.xml")
+
+        # Use put_object for a simple, single-part upload
+        self.s3.put_object(
+            Bucket=self.target.bucket_name,
+            Key=key_name,
+            Body=manifest,
+            ContentType="application/xml",
+        )
+
+    def upload_media(self):
+        """
+        FIX: Correct the multipart upload part numbering to be 1-based
+        instead of 0-based, as required by the S3 protocol.
+        """
+        source_file = open(self.input_file, "rb")
+        key_name = self.target.file_key(self.dest_filename)
+        upload_id = self.s3.create_multipart_upload(
+            Bucket=self.target.bucket_name, Key=key_name
+        )["UploadId"]
+
+        parts = []
+        chunk_size = 13107200  # Approx 12.5 MB
+        source_size = os.stat(self.input_file).st_size
+        chunk_count = int(math.ceil(source_size / float(chunk_size)))
+
+        for i in range(chunk_count):
+            part_number = i + 1  # <-- THE FIX: Part numbers must start at 1
+
+            offset = chunk_size * i
+            byte_count = min(chunk_size, source_size - offset)
+
+            data = source_file.read(byte_count)
+            part = self.s3.upload_part(
+                Bucket=self.target.bucket_name,
+                Body=data,
+                Key=key_name,
+                UploadId=upload_id,
+                PartNumber=part_number,  # Use the corrected 1-based number
+            )
+            parts.append({"PartNumber": part_number, "ETag": part["ETag"]})
+
+        self.s3.complete_multipart_upload(
+            Bucket=self.target.bucket_name,
+            Key=key_name,
+            UploadId=upload_id,
+            MultipartUpload={"Parts": parts},
+        )
+        source_file.close()
 
 class PanoptoUploaderView(LoggedInCourseMixin, View):
 
     def panopto_upload(self, video_title, folder, input_file, extension):
-        uploader = PanoptoUpload()
+        uploader = CustomPanoptoUpload()
         uploader.server = settings.PANOPTO_SERVER
         uploader.folder = folder
         uploader.username = settings.PANOPTO_API_USER
@@ -656,6 +721,20 @@ class PanoptoUploaderView(LoggedInCourseMixin, View):
         if not uploader.create_session():
             logger.error('Failed to create a Panopto upload session')
             return None
+
+        # DEBUG: inspect the Panopto manifest XML before uploading it
+        try:
+            xml_bytes = uploader._panopto_manifest(  # pylint: disable=protected-access
+                uploader.dest_filename, uploader.title, uploader.description
+            )
+            logger.info("Panopto manifest (%s.xml) head=%r",
+                        uploader.uuid, xml_bytes[:200])
+
+            # Optional: write it to disk for inspection
+            with open(f"/tmp/{uploader.uuid}.xml", "wb") as f:
+                f.write(xml_bytes)
+        except Exception:
+            logger.exception("Failed to generate/log Panopto manifest XML")
 
         uploader.create_bucket()
         logger.debug('Upload bucket created')
