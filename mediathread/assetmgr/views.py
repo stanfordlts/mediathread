@@ -721,21 +721,7 @@ class PanoptoUploaderView(LoggedInCourseMixin, View):
         if not uploader.create_session():
             logger.error('Failed to create a Panopto upload session')
             return None
-
-        # DEBUG: inspect the Panopto manifest XML before uploading it
-        try:
-            xml_bytes = uploader._panopto_manifest(  # pylint: disable=protected-access
-                uploader.dest_filename, uploader.title, uploader.description
-            )
-            logger.info("Panopto manifest (%s.xml) head=%r",
-                        uploader.uuid, xml_bytes[:200])
-
-            # Optional: write it to disk for inspection
-            with open(f"/tmp/{uploader.uuid}.xml", "wb") as f:
-                f.write(xml_bytes)
-        except Exception:
-            logger.exception("Failed to generate/log Panopto manifest XML")
-
+            
         uploader.create_bucket()
         logger.debug('Upload bucket created')
 
